@@ -1,0 +1,7 @@
+tmux
+git
+fzf
+python3
+openvpn
+nmap
+retroarch
