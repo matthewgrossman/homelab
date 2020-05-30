@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  jellyfin:
+    image: jellyfin/jellyfin
+    container_name: jellyfin
+    user: 1000:1000
+    network_mode: "host"
+    volumes:
+      - barracuda/jellyfin-config:/config
+      - barracuda/jellyfin-cache:/cache
+      - barracuda/media:/media
+
+volumes:
+  barracuda: /media/mg/barracuda
