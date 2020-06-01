@@ -7,6 +7,6 @@ services:
     ports:
       - "8096:8096"
     volumes:
-      - ~/jellyfin/config:/config
-      - ~/jellyfin/cache:/cache
+      - /media/mg/barracuda/jellyfin-config:/config
+      - /media/mg/barracuda/jellyfin-cache:/cache
       - /media/mg/barracuda/media:/media
