@@ -5,10 +5,9 @@ services:
     container_name: jellyfin
     user: 1000:1000
     network_mode: "host"
+    ports:
+      - "8096:8096"
     volumes:
-      - barracuda/jellyfin-config:/config
-      - barracuda/jellyfin-cache:/cache
-      - barracuda/media:/media
-
-volumes:
-  barracuda: /media/mg/barracuda
+      - /media/mg/barracuda/jellyfin-config:/config
+      - /media/mg/barracuda/jellyfin-cache:/cache
+      - /media/mg/barracuda/media:/media
