@@ -7,3 +7,4 @@ nmap
 retroarch
 acl
 transmission
+ncdu
