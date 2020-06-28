@@ -1,3 +1,4 @@
 tmux
 nmap
 wireguard
+python3
