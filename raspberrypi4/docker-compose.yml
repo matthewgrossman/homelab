@@ -7,6 +7,21 @@ services:
     ports:
       - "8096:8096"
     volumes:
-      - /media/pi/barracuda/jellyfin-config:/config
-      - /media/pi/barracuda/jellyfin-cache:/cache
+      - /media/pi/barracuda/jellyfin/config:/config
+      - /media/pi/barracuda/jellyfin/cache:/cache
       - /media/pi/barracuda/media:/media
+  transmission:
+    image: linuxserver/transmission
+    container_name: transmission
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - /media/pi/barracuda/transmission/config:/config
+      - /media/pi/barracuda/media:/downloads
+      - /media/pi/barracuda/transmission/watch:/watch
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    restart: unless-stopped

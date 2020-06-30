@@ -8,3 +8,4 @@ retroarch
 acl
 transmission
 ncdu
+jq
