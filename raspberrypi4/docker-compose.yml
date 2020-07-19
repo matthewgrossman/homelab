@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  jellyfin:
+  media:
     image: jellyfin/jellyfin
     container_name: jellyfin
     network_mode: "host"
@@ -10,7 +10,7 @@ services:
       - /media/pi/barracuda/jellyfin/config:/config
       - /media/pi/barracuda/jellyfin/cache:/cache
       - /media/pi/barracuda/media:/media
-  transmission:
+  torrents:
     image: linuxserver/transmission
     container_name: transmission
     environment:

@@ -9,3 +9,5 @@ acl
 transmission
 ncdu
 jq
+cec-utils
+glances
