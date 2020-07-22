@@ -1,1 +1,4 @@
+#!/usr/bin/env bash
+
+source "$HOME/lab/bash_profile"
 export PASSWORD_STORE_DIR="/root/lab/secrets"
