@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-ln -s "$HOME/lab/vps/bashrc" "$HOME/.bashrc"
+ln -s "$HOME/lab/vps/bash_profile" "$HOME/.bash_profile"
