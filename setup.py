@@ -1,5 +1,8 @@
 #! /usr/bin/env python3
 import argparse
+import subprocess
+import sys
+import tempfile
 from enum import Enum
 from pathlib import Path
 
@@ -13,38 +16,49 @@ class NodeType(str, Enum):
 
 
 class Setup:
-
     def __init__(self, node_type: NodeType, gpg_keyname: str = "priv.asc"):
         self.home_path = Path.home()
-        self.lab_path = self.home_path / 'lab'
+        self.lab_path = self.home_path / "lab"
         self.node_path = self.lab_path / node_type
 
         self.gpg_keyname = gpg_keyname
-
 
     def setup(self) -> int:
         self._symlink()
         self._import_gpg_key(keyname=self.gpg_keyname)
         # import info from pass?
         # modify the github url to SSH
+        return 0
 
     def _symlink(self) -> None:
-        (self.home_path / '.bash_profile').symlink_to(self.lab_path / 'bash_profile')
-        (self.home_path / 'node_bash_profile').symlink_to(self.node_path / 'node_bash_profile')
+        symlinks = {
+            self.home_path / ".bash_profile": self.lab_path / "bash_profile",
+            self.home_path / "node_bash_profile": self.node_path / "node_bash_profile",
+        }
+        for src, dst in symlinks.items():
+            safe_symlink(src, dst)
 
     def _import_gpg_key(self, keyname: str) -> None:
-        subprocess.run(["gpg", "--import", key_path])
+        subprocess.run(["gpg", "--import", keyname])
+
+
+def safe_symlink(src: Path, dst: Path) -> None:
+    with tempfile.TemporaryDirectory() as tmpdir:
+        tmp_path = Path(tmpdir) / "tmpfile"
+        tmp_path.symlink_to(dst)
+        tmp_path.rename(src)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "-n", "--node-type",
+        "-n",
+        "--node-type",
         help="setup the instance as this node type",
         choices=list(NodeType),
         type=NodeType,
         dest="node_type",
-        required=True
+        required=True,
     )
     args = parser.parse_args()
     s = Setup(node_type=args.node_type)
