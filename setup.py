@@ -16,7 +16,7 @@ class NodeType(str, Enum):
 
 
 class Setup:
-    def __init__(self, node_type: NodeType, gpg_keyname: str = "priv.asc"):
+    def __init__(self, node_type: NodeType, gpg_keyname: str):
         self.home_path = Path.home()
         self.lab_path = self.home_path / "lab"
         self.node_path = self.lab_path / node_type
@@ -60,6 +60,12 @@ if __name__ == "__main__":
         dest="node_type",
         required=True,
     )
+    parser.add_argument(
+        "--gpg",
+        help="filename in the home directory that contains the armored gpg priv file",
+        dest="gpg_keyname",
+        default="priv.asc",
+    )
     args = parser.parse_args()
-    s = Setup(node_type=args.node_type)
+    s = Setup(node_type=args.node_type, gpg_keyname=args.gpg_keyname)
     sys.exit(s.setup())
