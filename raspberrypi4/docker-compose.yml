@@ -1,11 +1,20 @@
 version: '3.8'
 services:
+  portainer:
+    image: portainer/portainer
+    container_name: portainer
+    ports:
+      - 8000:8000
+      - 9000:9000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
   media:
     image: jellyfin/jellyfin
     container_name: jellyfin
     network_mode: "host"
     ports:
-      - "8096:8096"
+      - 8096:8096
     volumes:
       - /media/pi/barracuda/jellyfin/config:/config
       - /media/pi/barracuda/jellyfin/cache:/cache
@@ -25,3 +34,5 @@ services:
       - 51413:51413
       - 51413:51413/udp
     restart: unless-stopped
+volumes:
+  portainer_data:
