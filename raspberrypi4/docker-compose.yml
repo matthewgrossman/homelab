@@ -20,9 +20,10 @@ services:
       - "443:443/tcp"
     environment:
       TZ: "America/Los_Angeles"
+      WEBPASSWORD: password1 # security not needed
     volumes:
-      - './etc-pihole/:/etc/pihole/'
-      - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
+      - '/etc/pihole/etc-pihole/:/etc/pihole/'
+      - '/etc/pihole/etc-dnsmasq.d/:/etc/dnsmasq.d/'
     dns:
       - 127.0.0.1
       - 1.1.1.1
