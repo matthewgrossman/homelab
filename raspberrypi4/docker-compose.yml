@@ -1,11 +1,36 @@
 version: '3.8'
 services:
+  traefik:
+    image: traefik
+    container_name: traefik
+    command:
+      - "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      # - "--providers.docker.defaultRule=Path(`/{{ .Name }}`)"
+    ports:
+      - 80:80
+      - 8081:8080
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+  whoami:
+    image: "traefik/whoami"
+    container_name: "whoami"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=PathPrefix(`/whoami`)"
+      - "traefik.http.middlewares.whoami_stripprefix.stripprefix.prefixes=/whoami"
+      - "traefik.http.routers.whoami.middlewares=whoami_stripprefix@docker"
   portainer:
     image: portainer/portainer
     container_name: portainer
     ports:
       - 8000:8000
       - 9000:9000
+    expose:
+      - 9000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
@@ -16,7 +41,6 @@ services:
       - "53:53/tcp"
       - "53:53/udp"
       - "67:67/udp"
-      - "80:80/tcp"
       - "443:443/tcp"
     environment:
       TZ: "America/Los_Angeles"
@@ -33,13 +57,20 @@ services:
   jellyfin:
     image: jellyfin/jellyfin
     container_name: jellyfin
-    network_mode: "host"
     ports:
       - 8096:8096
+    expose:
+      - 8096
     volumes:
       - /media/pi/barracuda/jellyfin/config:/config
       - /media/pi/barracuda/jellyfin/cache:/cache
       - /media/pi/barracuda/media:/media
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jellyfin.rule=PathPrefix(`/jellyfin`)"
+      - "traefik.http.middlewares.jellyfin_stripprefix.stripprefix.prefixes=/jellyfin"
+      - "traefik.http.middlewares.jellyfin_stripprefix.stripprefix.forceslash=true"
+      - "traefik.http.routers.jellyfin.middlewares=jellyfin_stripprefix@docker"
   transmission:
     image: linuxserver/transmission
     container_name: transmission
