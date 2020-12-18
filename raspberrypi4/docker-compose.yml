@@ -33,7 +33,6 @@ services:
   jellyfin:
     image: jellyfin/jellyfin
     container_name: jellyfin
-    network_mode: "host"
     ports:
       - 8096:8096
     volumes:
