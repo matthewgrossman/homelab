@@ -4,9 +4,7 @@ fzf
 python3
 openvpn
 nmap
-retroarch
 acl
-transmission
 ncdu
 jq
 cec-utils
