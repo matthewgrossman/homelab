@@ -1,0 +1,25 @@
+---
+- name: Update/upgrade apt packages
+  become: true
+  apt:
+    update_cache: yes
+    upgrade: 'yes'
+- name: Install packages
+  become: true
+  apt:
+    name:
+      - tmux
+      - fzf
+      - nmap
+      - jq
+- name: Add bash config
+  copy:
+    src: bash_config.bash
+    dest: "{{ ansible_env.HOME }}/bash_config.bash"
+- name: debug
+  debug: var=ansible_env.HOME
+- name: Source bash config
+  lineinfile:
+    path: "{{ ansible_env.HOME }}/.profile"
+    state: present
+    line: '[ -f "$HOME/bash_config.bash" ] && source "$HOME/bash_config.bash"'

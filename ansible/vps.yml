@@ -1,0 +1,5 @@
+---
+- name: Setup VPS
+  hosts: all
+  roles:
+    - common
