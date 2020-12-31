@@ -3,8 +3,9 @@
   become: true
   apt:
     update_cache: yes
+    cache_valid_time: 3600
     upgrade: 'yes'
-- name: Install packages
+- name: Install apt packages
   become: true
   apt:
     name:
@@ -12,14 +13,23 @@
       - fzf
       - nmap
       - jq
-- name: Add bash config
+      - ranger
+- name: Install pip packages
+  become: true
+  pip:
+    executable: pip3
+    name:
+      - docker-compose
+- name: Copy bash config
   copy:
     src: bash_config.bash
     dest: "{{ ansible_env.HOME }}/bash_config.bash"
-- name: debug
-  debug: var=ansible_env.HOME
-- name: Source bash config
+- name: Add bash config to .profile
   lineinfile:
     path: "{{ ansible_env.HOME }}/.profile"
     state: present
     line: '[ -f "$HOME/bash_config.bash" ] && source "$HOME/bash_config.bash"'
+- name: Clone homelab repo
+  git:
+    repo: 'https://github.com/matthewgrossman/homelab.git'
+    dest: "{{ ansible_env.HOME }}/homelab"

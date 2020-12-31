@@ -1,0 +1,42 @@
+---
+- name: Setup raspberrypi4
+  hosts: all
+  become: true
+  roles:
+    - common
+  tasks:
+    - name: Enable VNC
+      shell: raspi-config nonint do_vnc 0
+    - name: Enable SSH
+      shell: raspi-config nonint do_ssh 0
+    - name: Download Docker convenience script
+      get_url:
+        url: "https://get.docker.com"
+        dest: /etc/get-docker.sh
+        mode: 0755
+      register: dockerinstall
+    - name: Execute Docker convenience script
+      become: true
+      shell: /etc/get-docker.sh
+      when: dockerinstall.changed
+    - name: Add pi to docker group
+      become: true
+      user:
+        name: pi
+        groups: docker
+    - name: Mount barracuda
+      ansible.posix.mount:
+        path: /media/pi/barracuda
+        src: LABEL=barracuda
+        fstype: ext4
+        state: mounted
+    # - name: Add testing apt repo
+    #   become: true
+    #   apt_repository:
+    #     repo: deb http://archive.raspbian.org/raspbian testing main
+    # - name: Install wireguard
+    #   become: true
+    #   apt:
+    #     update_cache: true
+    #     name: wireguard
+
