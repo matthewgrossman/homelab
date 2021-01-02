@@ -9,6 +9,7 @@
   become: true
   apt:
     name:
+      - python-apt
       - tmux
       - fzf
       - nmap
@@ -19,6 +20,7 @@
   pip:
     executable: pip3
     name:
+      - docker
       - docker-compose
 - name: Copy bash config
   copy:

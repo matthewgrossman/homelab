@@ -1,5 +1,19 @@
 version: '3.8'
 services:
+  wgclient:
+    image: linuxserver/wireguard
+    container_name: wgclient
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    # ports:
+    #   - 51820:51820/udp
+    volumes:
+      - /media/pi/barracuda/wireguard:/config
+      - /lib/modules:/lib/modules
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
   portainer:
     image: portainer/portainer
     container_name: portainer

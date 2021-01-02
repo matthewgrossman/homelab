@@ -24,6 +24,10 @@
       user:
         name: pi
         groups: docker
+    - name: Install kernel headers
+      become: true
+      apt:
+        name: raspberrypi-kernel-headers
     - name: Mount barracuda
       ansible.posix.mount:
         path: /media/pi/barracuda
