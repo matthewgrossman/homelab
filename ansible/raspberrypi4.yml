@@ -9,6 +9,14 @@
       shell: raspi-config nonint do_vnc 0
     - name: Enable SSH
       shell: raspi-config nonint do_ssh 0
+    - name: Set wifi country
+      shell: raspi-config nonint do_wifi_country US
+    - name: Set keyboard
+      shell: raspi-config nonint do_configure_keyboard US
+    - name: Set timezone
+      shell: raspi-config nonint do_change_timezone America/Los_Angeles
+    - name: Set locale
+      shell: raspi-config nonint do_change_locale en_US.UTF-8
     - name: Download Docker convenience script
       get_url:
         url: "https://get.docker.com"
