@@ -1,0 +1,7 @@
+---
+- name: Copy wg0.conf
+  become: true
+  template:
+    src: wg0.conf.j2
+    dest: /etc/wireguard/wg0.conf
+
