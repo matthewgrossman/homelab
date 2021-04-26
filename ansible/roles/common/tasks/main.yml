@@ -16,13 +16,6 @@
       - nmap
       - jq
       - ranger
-- name: Install pip packages
-  become: true
-  pip:
-    executable: pip3
-    name:
-      - docker
-      - docker-compose
 - name: Copy bash config
   copy:
     src: bash_config.bash
