@@ -10,6 +10,7 @@
   apt:
     name:
       - python-apt
+      - python3-pip
       - tmux
       - fzf
       - nmap
